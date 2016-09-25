@@ -1,0 +1,15 @@
+<div class="vcard">
+    <div class="fn">My Name</div>
+    <div class="adr">
+        <div class="street-address">221B Baker Street, 2nd Floor</div>
+        <div> <span class="locality">London</span>, <abbr class="region" title="">England</abbr> <span class="postal-code">EC1Y 8SY</span></div>
+        <div class="country-name">United Kingdom</div>
+    </div>
+    <div>Phone: <span class="tel">+1-666-555-4444</span></div>
+    <div>Email: <span class="email">me@mail.com</span></div>
+    <div class="tel">
+        <span class="type">Fax</span>:
+        <span class="value">+1-666-555-3333</span>
+    </div>
+</div>
+
