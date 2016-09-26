@@ -1,0 +1,5 @@
+*.chtml
+
+libs/
+.shards/
+*.lock

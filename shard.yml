@@ -1,4 +1,9 @@
+name: shards
+version: 0.1.0
+
 dependencies:
   crustache:
       github: MakeNowJust/crustache
+
+license: MIT
 

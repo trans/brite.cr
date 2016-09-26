@@ -1,83 +1,112 @@
 # Markdown generator
 # (c) OpenBohemians
 
-require "yaml"
+#require "./yamlext"
+require "json"
 require "markdown"
 
-CONFIG_FILE = ".brite/config.yml"
-CONFIG_SECTION = "markdown"
+module Brite
 
-# Default config
-CONFIG_DEFAULT = {
-  "include" => "**/*.md",
-  "exclude" => ""  # TODO
-}
+  class Markdown
+		CONFIG_FILE = ".brite/config.yml"
+  	CONFIG_SECTION = "markdown"
 
-def main
-  config = read_config
-  # TODO: improve this to hand directory names ane exlcusions
-  # Glob markdown files
-  files = Dir.glob(config["include"])
-  generate(files)
-end
+    # TODO best ext name?
+    PARTIAL_EXTENSION = "chtml"
 
-# Read config file
-def read_config
-  config = CONFIG_DEFAULT.dup
-  yaml = YAML.parse(File.read(CONFIG_FILE))
-  if yaml.is_a?(Hash)
-    if cfg = yaml[CONFIG_SECTION]
-      config = config.merge(cfg)
+    property :spec 
+
+    def initialize
+      yaml = JSON.parse(File.read(CONFIG_FILE))
+      conf = yaml[CONFIG_SECTION]
+      @spec = Spec.from_json(conf.to_json)
     end
-  else
-    raise "Unexpected YAML format: #{yaml.class}"
+
+		def run
+		  # Glob markdown files
+		  files = Dir.glob(spec.include)
+		  generate(files)
+		end
+
+		# Iterate thru md file and generate html via layouts 
+		def generate(files)
+			files.each do |file|
+			  #data = read_metadata(file)
+			  text = File.read(file)
+			  output = render(text)
+			  save(output, file)
+			end
+		end
+
+		def render(body_text)
+		  ::Markdown.to_html(body_text)
+		end
+
+		# Find layout relative to content file
+		def find_layout(file, layout_name)
+		  pwd = File.expand_path(".")
+		  dir = File.dirname(File.expand_path(file))
+		  while(dir != pwd && dir != "/")
+        lay = File.join(dir, layout_name)  # extension?
+			  if File.exists?()
+			    return lay
+			  end
+			  dir = File.dirname(dir)
+		  end 
+		end
+
+		# Find layout relative to content file
+		#def read_metadata(file)
+		#  meta_file = file.chomp(File.extname(file)) + ".meta"
+		#  if File.exist?(meta_file)
+		#    YAML.parse(File.read(meta_file))
+		#  else
+		#    # probably will do this brite command as a master check
+		#    puts "Warning: No metadata found for #{file}."
+		#    # hmm... we have some figuring to do
+		#  end
+		#end
+
+	  def save(text, file)
+	    file = file.chomp(File.extname(file)) + "." + PARTIAL_EXTENSION
+      puts file
+  	  File.write(file, text)
+	  end
+
+    class Spec
+  		DEFAULT_INCLUDE = "**/*.md"
+	  	DEFAULT_EXCLUDE = ""  # TODO
+
+      JSON.mapping(
+        include: String,
+        exclude: String
+      )
+
+      #property :include
+      #property :exclude
+
+      #def initialize()
+      #  yaml = YAML.parse(File.read(CONFIG_FILE))
+      #  conf = yaml[CONFIG_SECTION]
+      #  @include = conf["include"].as_s
+      #  @exclude = conf["exclude"].as_s 
+      #end
+
+      def include
+        @include || DEFAULT_INCLUDE
+      end
+
+      def exclude
+        @exclude || DEFAULT_EXCLUDE
+      end
+
+    end
+
   end
-  config
-end
 
-# Iterate thru md file and generate html via layouts 
-def generate(files)
-	files.each do |file|
-	  #data = read_metadata(file)
-	  text = File.read(file)
-	  output = render(text)
-	  save(output, file)
-	end
-end
-
-def render(body_text)
-  return Markdown.to_html(body_text)
-end
-
-# Find layout relative to content file
-def find_layout(file, layout_name)
-  pwd = File.expand_path(".")
-  dir = File.dirname(File.expand_path(file))
-  while(dir != pwd && dir != "/")
-    lay = File.join(dir, layout_name)  # extension?
-    if File.exists?()
-      return lay
-    end
-	dir = File.dirname(dir)
-  end 
-end
-
-# Find layout relative to content file
-#def read_metadata(file)
-#  meta_file = file.chomp(File.extname(file)) + ".meta"
-#  if File.exist?(meta_file)
-#    YAML.parse(File.read(meta_file))
-#  else
-#    # probably will do this brite command as a master check
-#    puts "Warning: No metadata found for #{file}."
-#    # hmm... we have some figuring to do
-#  end
-#end
-
-def save(text, file)
-  file = file.chomp(File.extname(file)) + ".chtml"
-  File.write(file, text)
 end
 
 # run main routine
-main
+bm = Brite::Markdown.new
+bm.run
+

@@ -1,8 +1,10 @@
----
-
-markdown:
-  include: **/*.md
-
-mustache:
-
+{
+  "markdown": {
+    "include": "**/*.md",
+    "exclude": ""
+  }
+  "mustache": {
+     "extension": "chtml"
+  }
+}
 
