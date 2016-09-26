@@ -1,6 +1,6 @@
 ![Lightbulb!](logo.png)
 
-# Brite Site II
+# Brite Site Duex
 
 
 ## A Little History
@@ -26,7 +26,7 @@ commiting to it -- after all I've always had a soft spot for Lisp. But there was
 voice in the back of my mind that I could not shake. "They are doing it wrong."
 
 
-## Brite Duex, a New Approach
+## A New Approach
 
 Brite takes a fairly different approach from all the other copycat static site generators
 out there. First of all it uses a pipeline. Some other tools use a pipeline. It's a smart
@@ -49,13 +49,19 @@ More to come...
 * RSS/Atom feeds
 * Easy Themes
 
-### Maybe Features
+**Maybe Features**
 
 * Dynamic Javascript site (in addition to full static)
 * Constraint-based Stylesheets
 
 
+## Getting Started
+
+Right now it's all development hoss. So keep you pants on and will get wrangling pony as soon
+as we can.
+
+
 ## Copyrights
 
-Brite Site (c) 2016 OpenBohemians
+Brite Site Duex (c) 2016 OpenBohemians
 
