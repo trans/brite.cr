@@ -1,4 +1,4 @@
-![Lightbulb!](logo.jpg)
+![Lightbulb!](logo.png)
 
 # Brite Site II
 
