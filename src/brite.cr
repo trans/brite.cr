@@ -70,7 +70,7 @@ module Brite
         builder.validate
       end
 
-      builders.each do |b|
+      builders.each do |builder|
         builder.build
       end
     end
@@ -80,6 +80,10 @@ module Brite
   # Builder class builds a single post/page.
 
   class Builder  
+    @directory : String
+    @markup_file : String
+    @data_file : String
+    @data : Hash(String, JSON::Type) | Hash(YAML::Type, YAML::Type)
 
     def initialize(dir : String)
       @directory = dir
@@ -98,11 +102,21 @@ module Brite
       text = File.read(file)
 
       if File.extname(file) == ".json"
+        hash = Hash(String, JSON::Any).new
         json = JSON.parse(text)
-        json.to_h
+        json.as_h
+        #json.each do |k,v|
+        #  hash[k.to_s] = v
+        #end
+        #hash
       else
+        hash = Hash(String, YAML::Any).new
         yaml = YAML.parse(text)
-        yaml.to_h
+        yaml.as_h
+        #yaml.each do |k,v|
+        #  hash[k.to_s] = v
+        #end
+        #hash
       end
     end
 
@@ -147,23 +161,23 @@ module Brite
       @markup_file
     end
 
-    def layout_file
+    def layout_file : String
       layout_name = @data["layout"] || "post"
-      find_layout_file(dir, layout_name)
+      find_layout_file(@directory, layout_name)
     end
 
 	  # Find layout relative to directory.
-	  def find_layout_file(dir, layout_name)
+	  def find_layout_file(dir, layout_name) : String
 	    pwd = File.expand_path(".")
-	    dir = File.dirname(File.expand_path(file))
+	    dir = dir.dup #File.dirname(File.expand_path(file))
 	    while(dir != pwd && dir != "/")
-        lay = File.join(dir, "theme", layout_name + ".html")  # extension?
-		    if File.exists?()
+        lay = File.join(dir, "theme", layout_name.to_s + ".html")  # extension?
+		    if File.exists?(lay)
 		      return lay
 		    end
 		    dir = File.dirname(dir)
 	    end
-      return nil
+      return ""
 	  end
 
     #
