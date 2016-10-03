@@ -1,7 +1,7 @@
 #!/bin/bash
-crystal build src/brite/mustache.cr
-mv mustache sample/.brite/pipeline/
+crystal build src/brite/indexer.cr
+mv indexer sample/.brite/pipeline/
 cd sample
-.brite/pipeline/mustache
+.brite/pipeline/indexer
 cd ..
 

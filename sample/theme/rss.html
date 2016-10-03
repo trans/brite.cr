@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+<channel>
+  <title>{{ title }}</title>
+  <description>{{ description }}</description>
+  <link>{{ url }}</link>
+  <lastBuildDate>{{ today }}</lastBuildDate>
+  <pubDate>{{ today }}</pubDate>
+  <ttl>1800</ttl>
+  {{#items}}
+    <item>
+      <title>{{ title }}</title>
+      <description>{{ description }}</description>
+      <link>{{ url }}</link>
+      <guid isPermaLink="true">7bd204c6-1655-4c27-aeee-53f933c5395f</guid>
+      <pubDate>{{ date }}</pubDate>
+    </item>
+  {{/items}}
+</channel>
+</rss>
+
