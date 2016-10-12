@@ -1,10 +1,8 @@
-{
-  "markdown": {
-    "include": "**/*.md",
-    "exclude": ""
-  }
-  "mustache": {
-     "extension": "chtml"
-  }
-}
+---
+title: My Brite Site
+url: brite.org
+
+layouts:
+  - post
+  - page
 
