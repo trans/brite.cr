@@ -2,6 +2,7 @@
 
 # Brite Site Duex
 
+*And no it won't be written in fucking Crystal or Swift.*
 
 ## A Little History
 
