@@ -2,7 +2,8 @@
 
 # Brite Site Duex
 
-*And no it won't be written in fucking Crystal or Swift.*
+*The Crystal Clear Static Site Generator!*
+
 
 ## A Little History
 
@@ -30,35 +31,30 @@ voice in the back of my mind that I could not shake. "There's a better way."
 ## A New Approach
 
 Brite takes a fairly different approach from all the other copycat static site generators
-out there. First of all it uses a pipeline. Some other tools use a pipeline. It's a smart
-approach, but unlike the others, Brite's pipeline is composed of individual tools. Any one
-of which can be replaced if need be, without restriction on language or dependencies.
-Don't like Brite's built-in Markdown renderer? Just replace that part with a shell script
-that uses Pandoc. Fine by us. It is your site after all. The `brite` command line tool
-is really little more than a lightweight wrapper that manages this pipeline.
-
-**NOTE: This feature might not be used, depends on if we can make it work well with themes.**
-Another distinction of Brite is its use of *acquisition*. Acquisition is a concept
-borrowed from Zope (if any of you remember that). Essentially layouts are searched for starting
-with the location of the source document and continues up the directory tree to the site's top
-directory.
+out there. For starters, page and post files have a file extension coresponding the layout 
+template they will use. Another distinction is that pages and posts are organized into
+directories, not just files. This allows assets to be stored with the content to which
+it pertains. This in turn alows Brite to use a feature called *acquisition*. Acquisition
+is a concept borrowed from Zope (if any of you remember that). Essentially layouts are searched
+for starting with the location of the source document and continued up the directory tree
+to the site's top directory. In thsi way pages and posts can be categorized by the directory
+hiearchy and assets, like layouts, shared between categories.
 
 ### Features
 
 * Unix philosophy
 * Statically compiled 
-* Extensible pipeline
 * Mustache Templates
 * Markdown Format
-* HCard support
+* HCard support (eventually)
 * RSS/Atom feeds
-* Easy Themes
+* Easily Themed
 
-**Maybe Features**
+**Possible Future Features**
 
-* Dynamic Javascript site (in addition to full static)
+* Dynamic Javascript site generator
 * [Constraint-based Stylesheets](http://gridstylesheets.org/)
-
+* Extensible rendering pipeline
 
 ## Getting Started
 
@@ -78,30 +74,68 @@ Then
 $ brite build
 ```
 
-The standard pipeline can be broken down into a few broard *ordered* operations.
+## Going Deep
+
+The standard pipeline can be broken down into a four broard *ordered* operations.
 
 1. sourcing   - prepare source materials
 2. indexing   - create site indexes
 3. generating - generate site pages
 4. deploying  - upload site to servers
 
-Out of the box Brite provides the following tools.
+Out of the box Brite provides the following.
 
-Indexing tools
+**Sourcing**
 
-1. index  - generate index pages and metadata files (e.g. RSS feeds)
-2. rss    - generate RSS feed
-3. atom   - generate Atom feed
+None at this time.
 
-Generating tools 
+In the future we might provided a a way to import from other engines such as
+Jekyll, as well as import from a Gollum Wiki. For now however, you have to do
+this by hand. Or start a site from stratch.
 
-1. markdown  - generate html partials from markdown files
-2. mustache  - generate html finals from partials, metadata and mustache layouts
+**Indexing**
 
-Deployment tools
+* json   - generate JSON index
+* rss    - generate RSS feed
+* atom   - generate Atom feed
 
-1. gitup - update site on serve using git
+Presently the first, JSON index, is always generated. The later are generated
+if the layout template files are found in the `theme` directory, namely,
+`rss.html` and `atom.html` respectively. If you do not wish for one or either
+of these to be rendered we recommend simply renaming the layout file with a
+prefixing undersore, e.g. `_rss.html` and/or `_atom.html`.
 
+**Generating**
+
+* markdown  - generate html partials from markdown files
+* mustache  - generate html finals from partials, metadata and mustache layouts
+
+Presently these two operations occur together in a single pass. In the future
+it may be possible to separate them, but there are some ramifications to this
+that have to considered carefully first.
+
+**Deployment**
+
+None at this time.
+
+In the future we will add some built-in support for pushing to hosting services,
+starting with git-based hosting repositories, such as Github.
+
+
+## Roadmap
+
+Considering the addition of an exentsible pipeline. To do this, it must be
+possible for all steps in the processes to be isolated, so that custom tools
+can be run in between each with access to the necessary data and configuration.
+We could do this in a very Unix way, allowing external command line tools to
+run, or we could do it via a plug-in system, in which case only Crystal coded
+extensions would be of use -- however, I do not know how that could work for
+a compiled program. The former approach has some advantages. Any part of the
+pipeline could be replaced if need be, without restriction on language or
+dependencies. Don't like Brite's built-in Markdown renderer? Just replace that
+part with a shell script that uses Pandoc, for instance. The downside here,
+each tool is on its own with regard to reading the configuration data and just
+generally doing the right thing.
 
 ## Copyrights
 
